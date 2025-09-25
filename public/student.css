@@ -76,3 +76,37 @@ button:hover {
   display: inline-block;
 }
 
+
+
+/* Responsive styling for screens <= 765px */
+@media (max-width: 765px) {
+  body {
+    padding: 20px 10px;
+  }
+
+  h2 {
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+  }
+
+  form {
+    padding: 15px;
+    max-width: 100%;
+  }
+
+  input[type="text"] {
+    width: 95%;
+    padding: 10px;
+    font-size: 0.95rem;
+  }
+
+  button {
+    padding: 10px 20px;
+    font-size: 0.95rem;
+  }
+
+  #message {
+    font-size: 0.9rem;
+    padding: 6px 10px;
+  }
+}

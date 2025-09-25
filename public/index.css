@@ -67,3 +67,41 @@
       from { opacity: 0; transform: translateY(-20px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+    /* Responsive styling for screens <= 765px */
+@media (max-width: 765px) {
+  body {
+    padding: 15px;
+    height: auto;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-size: 1rem;
+    margin-bottom: 15px;
+  }
+
+  ul li a {
+    padding: 10px 20px;
+    font-size: 1rem;
+  }
+
+  ul li {
+    margin: 10px 0;
+  }
+}
