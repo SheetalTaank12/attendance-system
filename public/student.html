@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Attendance</title>
+  <link rel="stylesheet" href="student.css">
+  <link rel="stylesheet" href="spinner.css">
+
+</head>
+<body>
+  <h2>Mark Your Attendance</h2>
+  <form id="attendanceForm">
+    <input type="text" id="name" placeholder="Name" required><br>
+    <input type="text" id="roll" placeholder="Roll No" required><br>
+    <input type="text" id="className" placeholder="Class" required><br>
+    <input type="text" id="code" placeholder="Teacher Code" required><br>
+    <button type="submit">Submit</button>
+  </form>
+
+  <p id="message"></p>
+<div id="loadingSpinner" class="spinner" style="display:none;"></div>
+
+
+  <script>
+    document.getElementById("attendanceForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  // Today's date in yyyy-mm-dd format
+  const today = new Date().toISOString().split("T")[0];
+
+  const payload = {
+    name: document.getElementById("name").value,
+    roll: document.getElementById("roll").value,
+    className: document.getElementById("className").value,
+    code: document.getElementById("code").value,
+    date: today
+  };
+
+ const loadingEl = document.getElementById("loadingSpinner");
+const messageEl = document.getElementById("message");
+
+loadingEl.style.display = "block";  // show spinner
+messageEl.innerText = "";
+
+try {
+  const res = await fetch("/api/submit-attendance", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+  const data = await res.json();
+  messageEl.innerText = data.message || data.error;
+} catch (err) {
+  messageEl.innerText = "Server error, please try again";
+} finally {
+  loadingEl.style.display = "none"; // hide spinner
+}
+
+});
+
+  </script>
+</body>
+</html>

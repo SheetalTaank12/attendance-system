@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Teacher Panel</title>
+  <link rel="stylesheet" href="teacher.css">
+   <link rel="stylesheet" href="spinner.css">
+
+</head>
+<body>
+  <h2>Manage Your Class Attendance</h2>
+
+  <!-- Code Generate Section -->
+  <h3>Generate Attendance Code</h3>
+  <form id="codeForm">
+    <input type="text" id="teacherName" placeholder="Teacher Name" required><br>
+    <input type="text" id="className" placeholder="Class (e.g. bca 1st sem)" required><br>
+    <input type="text" id="subject" placeholder="Subject (e.g. maths)" required><br>
+    <button type="submit">Generate Code</button>
+  </form>
+  <p id="codeMessage"></p>
+<div id="codeSpinner" class="spinner" style="display:none;"></div>
+  <hr>
+
+ <!-- Export Attendance Excel -->
+<h3>Export Attendance to Excel</h3>
+<form id="exportForm">
+  <input type="text" id="exportClass" placeholder="Class (e.g. bca 1st sem)" required><br>
+  <input type="text" id="exportSubject" placeholder="Subject (e.g. maths)" required><br>
+  <input type="date" id="exportDate" required><br>
+  <button type="submit">Download Excel</button>
+</form>
+<p id="exportMessage"></p>
+<div id="exportSpinner" class="spinner" style="display:none;"></div>
+
+  <hr>
+
+  <script>
+    // Generate Code
+    document.getElementById("codeForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      console.log("btn clicked");
+      const payload = {
+        teacherName: document.getElementById("teacherName").value,
+        className: document.getElementById("className").value,
+        subject: document.getElementById("subject").value
+      };
+
+      
+        const codeSpinner = document.getElementById("codeSpinner");
+const codeMessage = document.getElementById("codeMessage");
+
+codeSpinner.style.display = "block";
+codeMessage.innerText = "";
+
+try {
+  const res = await fetch("/api/generate-code", {
+    method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+  });
+  const data = await res.json();
+  codeMessage.innerText = data.code ? `Code: ${data.code} (valid for 1 min)` : data.error;
+} catch (err) {
+  codeMessage.innerText = "Server error, please try again";
+} finally {
+  codeSpinner.style.display = "none";
+}
+
+    });
+
+    // Export Attendance Excel
+   document.getElementById("exportForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const className = document.getElementById("exportClass").value;
+  const subject = document.getElementById("exportSubject").value;
+  const date = document.getElementById("exportDate").value;
+  const exportSpinner = document.getElementById("exportSpinner");
+const exportMessage = document.getElementById("exportMessage");
+
+exportSpinner.style.display = "block";
+exportMessage.innerText = "";
+
+try {
+  const res = await fetch(`/api/export-excel?className=${className}&subject=${subject}&date=${date}`);
+  
+  if (!res.ok) {
+    const errData = await res.json();
+    exportMessage.innerText = errData.error || "Error generating Excel";
+    return;
+  }
+
+  const blob = await res.blob();
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `${className}_${subject}_${date}.xlsx`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+} catch (err) {
+  exportMessage.innerText = "Server error, please try again";
+} finally {
+  exportSpinner.style.display = "none";
+}
+
+});
+
+
+  </script>
+</body>
+</html>
