@@ -16,11 +16,11 @@ export default async function handler(req, res) {
 
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     const createdAt = new Date();
-    const expiresAt = new Date(createdAt.getTime() + 3 * 60 * 1000); // 3 minutes
+    const expiresAt = new Date(createdAt.getTime() + 2 * 60 * 1000); // 2 minutes
 
     await Code.create({ code, className, subject, teacherName, createdAt, expiresAt });
 
-    return res.json({ code, validFor: "3 minutes" });
+    return res.json({ code, validFor: "2 minutes" });
   } catch (err) {
     console.error("Error in /api/generate-code:", err);
     return res.status(500).json({ error: "Server error", details: err.message });
