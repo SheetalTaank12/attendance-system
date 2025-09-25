@@ -16,8 +16,8 @@ export default async function handler(req, res) {
 
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     const createdAt = new Date();
-    const expiresAt = new Date(createdAt.getTime() + 60 * 1000); // 1 min
-
+    const expiresAt = new Date(createdAt.getTime() + 3 * 60 * 1000); // 3 minutes
+    
     await Code.create({ code, className, subject, teacherName, createdAt, expiresAt });
 
     return res.json({ code, validFor: "1 minute" });
