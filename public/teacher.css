@@ -101,6 +101,11 @@ input[type="date"] {
   outline: none;
 }
 
+input[type="text"] {
+  text-transform: lowercase;
+}
+
+
 
 @media (max-width: 765px) {
   body {

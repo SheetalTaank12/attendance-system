@@ -76,6 +76,11 @@ button:hover {
   display: inline-block;
 }
 
+input[type="text"] {
+  text-transform: lowercase;
+}
+
+
 
 
 @media (max-width: 765px) {

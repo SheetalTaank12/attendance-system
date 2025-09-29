@@ -36,6 +36,17 @@
 
   <hr>
 
+
+  <script>
+  // Make all text inputs lowercase while typing
+  document.querySelectorAll('input[type="text"]').forEach(input => {
+    input.addEventListener('input', () => {
+      input.value = input.value.toLowerCase();
+    });
+  });
+</script>
+
+
   <script>
     // Generate Code
     document.getElementById("codeForm").addEventListener("submit", async (e) => {

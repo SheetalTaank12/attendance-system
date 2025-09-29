@@ -22,6 +22,16 @@
 <div id="loadingSpinner" class="spinner" style="display:none;"></div>
 
 
+<script>
+  // Make all text inputs lowercase while typing
+  document.querySelectorAll('input[type="text"]').forEach(input => {
+    input.addEventListener('input', () => {
+      input.value = input.value.toLowerCase();
+    });
+  });
+</script>
+
+
   <script>
     document.getElementById("attendanceForm").addEventListener("submit", async (e) => {
   e.preventDefault();
